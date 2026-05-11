@@ -1,0 +1,24 @@
+# ── ZyndAI SDK ─────────────────────────────────────────────────────────────────
+zyndai-agent>=0.6.0
+websockets>=14.0          # heartbeat extra — keeps the agent "active" in the registry
+
+# ── LangChain stack ────────────────────────────────────────────────────────────
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-classic>=0.1.0  # AgentExecutor + create_tool_calling_agent
+langchain-groq>=0.2.0     # ChatGroq (Llama-3.3-70b-versatile)
+langgraph>=0.2.0          # StateGraph — feed-analyzer pipeline
+
+# ── LLM provider ───────────────────────────────────────────────────────────────
+groq>=0.9.0
+
+# ── Social media scraping ──────────────────────────────────────────────────────
+apify-client>=1.7.0       # Instagram + YouTube scraping via Apify actors
+
+# ── Data / config ──────────────────────────────────────────────────────────────
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+
+# ── Notifications ──────────────────────────────────────────────────────────────
+win10toast>=0.9.0            # Windows desktop toast notifications
+requests>=2.31.0             # Webhook backend for notification integrations
