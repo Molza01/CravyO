@@ -1,0 +1,107 @@
+{
+  "name": "cravyo-agent",
+  "description": "Cravyo is an AI food-craving agent that reads a user's Instagram or YouTube feed, detects what food they are craving right now, and returns a personalised Swiggy ordering suggestion — with price comparison across Food Delivery, Instamart, and Dineout. Built on LangGraph with Groq LLM, Apify scraping, and a personalization memory layer that learns from past orders.",
+  "summary": "Detects food cravings from social media feeds and suggests the best way to order — Swiggy delivery, Instamart, or Dineout — with live price comparison and personalized memory.",
+  "version": "0.1.0",
+  "category": "food",
+  "tags": [
+    "food",
+    "food-delivery",
+    "swiggy",
+    "instamart",
+    "dineout",
+    "cravings",
+    "instagram",
+    "youtube",
+    "social-media",
+    "feed-analysis",
+    "price-comparison",
+    "personalization",
+    "langgraph",
+    "groq",
+    "apify",
+    "restaurant",
+    "ordering",
+    "recommendation"
+  ],
+  "registry_url": "https://zns01.zynd.ai",
+  "server_host": "0.0.0.0",
+  "server_port": 5000,
+  "auth_mode": "open",
+  "entity_index": 2,
+  "skills": [
+    {
+      "id": "analyze_feed",
+      "name": "Detect Food Cravings from Instagram or YouTube",
+      "description": "Scrapes a user's Instagram or YouTube feed using Apify, then runs a LangGraph pipeline to detect the food or cuisine they are currently craving. Returns a fully formatted Swiggy suggestion that accounts for time of day, dietary profile (veg, vegan, gym, diet), proximity to a restaurant, and past order history. Supports Instagram usernames and YouTube channel handles.",
+      "tags": ["instagram", "youtube", "feed-analysis", "scraping", "cravings", "swiggy", "recommendation"],
+      "examples": [
+        "{\"action\": \"analyze\", \"username\": \"foodie_reel\", \"platform\": \"instagram\", \"dietary\": \"veg\", \"near_restaurant\": true}",
+        "{\"action\": \"analyze\", \"username\": \"BBCGoodFood\", \"platform\": \"youtube\", \"dietary\": \"all\", \"near_restaurant\": false}"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "analyze_mock",
+      "name": "Analyze Custom Posts for Food Cravings",
+      "description": "Run the full craving-detection and ordering pipeline on a caller-supplied list of social media posts — no scraping needed. Useful when the caller already has post data, for demos, or for unit-testing downstream agents without hitting real social-media APIs.",
+      "tags": ["craving-detection", "mock", "testing", "langgraph", "food"],
+      "examples": [
+        "{\"action\": \"analyze_mock\", \"posts\": [{\"caption\": \"biryani night!\", \"hashtags\": [\"biryani\"], \"thumbnail_url\": \"\"}], \"dietary\": \"all\", \"city\": \"Pune\", \"time_context\": \"evening\"}"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "compare_prices",
+      "name": "Compare Food Prices Across Swiggy Channels",
+      "description": "Given a dish name and city, returns a cost breakdown comparing Swiggy Food Delivery, Swiggy Instamart (grocery/instant delivery), and Dineout (eat-in). Recommends the cheapest or most convenient option with a plain-language summary. Useful for budget-aware ordering decisions.",
+      "tags": ["price-comparison", "swiggy", "instamart", "dineout", "food-delivery", "budget"],
+      "examples": [
+        "{\"action\": \"compare_prices\", \"dish\": \"chicken biryani\", \"city\": \"Mumbai\"}",
+        "{\"action\": \"compare_prices\", \"dish\": \"margherita pizza\", \"city\": \"Bangalore\"}"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "order_memory",
+      "name": "Personalized Order Memory and Preferences",
+      "description": "Manages a persistent user preference profile. Record confirmed food orders so future suggestions are personalized. Dismiss restaurants you don't want to see. Rate your last order. Retrieve your top cuisines, top restaurants, and full order history. Clear all memory to start fresh. This memory layer is automatically applied by the analyze actions to bias suggestions toward known preferences.",
+      "tags": ["personalization", "memory", "order-history", "preferences", "restaurant", "food"],
+      "examples": [
+        "{\"action\": \"record_order\", \"restaurant\": \"Behrouz Biryani\", \"dish\": \"Chicken Biryani\", \"channel\": \"food_delivery\", \"price\": 349, \"cuisine\": \"indian\", \"rating\": 5}",
+        "{\"action\": \"get_memory\"}",
+        "{\"action\": \"skip\", \"restaurant\": \"McDonald's\"}",
+        "{\"action\": \"rate_last_order\", \"rating\": 4}",
+        "{\"action\": \"clear_memory\"}"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "trends",
+      "name": "Food Craving Trends",
+      "description": "Returns a ranked breakdown of the user's food cravings over the past 30 days, grouped by cuisine (Indian, Chinese, Italian, etc.). Useful for building craving-aware dashboards, weekly meal planning, or feeding analytics agents.",
+      "tags": ["trends", "analytics", "cuisine", "history", "food"],
+      "examples": [
+        "{\"action\": \"get_trends\"}"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "demo",
+      "name": "Demo Post Presets",
+      "description": "Returns a ready-made batch of social media posts for a given food theme (chinese, snacks, indian, gym, italian). Use this to demo the analyze_mock skill without having to craft posts from scratch.",
+      "tags": ["demo", "testing", "presets"],
+      "examples": [
+        "{\"action\": \"get_demo_posts\", \"preset\": \"chinese\"}",
+        "{\"action\": \"get_demo_posts\", \"preset\": \"gym\"}"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ]
+}
